@@ -11,10 +11,10 @@ import re
 
 class MovieForm(ModelForm):
     class Meta: #subklasa opisująca dane z których będzie tworzony form
-        model = Movie #model na podstawie tworzy form
-        fields = '__all__'
+        model = Movie #model na podstawie tworzy formularz
+        fields = '__all__' #wykorzystujemy wszystkie pola z modelu
 
-    #pola z własnymi walidatorami
+    #pola z własnymi walidatorami dodajemy oddzielnie poza META
     title = CharField(validators=[capitalized_validator])
     rating = IntegerField(min_value=1, max_value=10)
     released = PastMonthField()
