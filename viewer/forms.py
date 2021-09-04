@@ -10,14 +10,19 @@ import re
 
 
 class MovieForm(ModelForm):
-    class Meta: #subklasa opisująca dane z których będzie tworzony form
-        model = Movie #model na podstawie tworzy formularz
-        fields = '__all__' #wykorzystujemy wszystkie pola z modelu
+    class Meta: # subklasa opisująca dane z których będzie tworzony form
+        model = Movie # model na podstawie tworzy formularz
+        fields = '__all__' # wykorzystujemy wszystkie pola z modelu
 
-    #pola z własnymi walidatorami dodajemy oddzielnie poza META
+    # pola z własnymi walidatorami dodajemy oddzielnie poza META
     title = CharField(validators=[capitalized_validator])
     rating = IntegerField(min_value=1, max_value=10)
     released = PastMonthField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_description(self):
         initial = self.cleaned_data['description']

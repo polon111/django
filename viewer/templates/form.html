@@ -7,9 +7,40 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <table>
-            {{ form }}
-        </table>
+        {{ form.non_field_errors }} <!-- błędy nie wynikające z walidacji pola -->
+
+        <div class="form-group">
+            {{ form.title_errors }}
+            <label for="{{ form.title.id_for_label }}">Tytuł</label>
+            {{ form.title }} <!-- wygenerowanie pola input -->
+        </div>
+
+        <div class="form-row">
+            <!-- GENRE -->
+            <div class="form-group col-md-4">
+                {{ form.genre.errors }}
+                <label for="{{ form.genre.id_for_label }}">Gatunek</label>
+                {{ form.genre }}
+            </div>
+            <!-- Rating -->
+            <div class="form-group col-md-4">
+                {{ form.rating.errors }}
+                <label for="{{ form.rating.id_for_label }}">Ocena</label>
+                {{ form.rating }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.released.errors }}
+                <label for="{{ form.released.id_for_label }}">Premiera</label>
+                {{ form.released }}
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                {{ form.description.errors }}
+                <label for="{{ form.released.id_for_label }}">Opis</label>
+                {{ form.description }}
+            </div>
+        </div>
         <input type="submit" value="Wyślij" class="btn btn-primary"/>
     </form>
 {% endblock %}
