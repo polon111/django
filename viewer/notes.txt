@@ -1,0 +1,33 @@
+Autentykacja != Autoryzacja
+
+Autentykacja
+->  sprawdzenie tożsamości (loginu / hasła)
+->  mechanizmy:
+    ->  rejestracja (może być zamknięta)
+    ->  logowanie
+    ->  utrzymanie uwierzytelnienia (dodatkowe akcje, gdy coś będzie
+        niepewne)
+
+Autoryzacja
+->  sprawdzenie, czy autentykowany użytkownik ma prawo
+    do wykonania operacji
+
+Django wspiera mechanizmy autentykacji i autoryzacji.
+->  Autentykacja następuje na podstawie pary: login / hasło
+->  Hasła w bazie projektu Django trzymane są pod postacią hasha
+->  Sól jest losowa wartość doklejoną na początku hasła.
+pbkdf2_sha256$180000$OSOCrNb44aKy$l7DrKizl9gRQ90TXwYcuV1wDJSLQe6JKkIK1Gl6OoHc=
+pbkdf2_sha256$180000 <= algorytm użyty do wygenerowania hasha
+OSOCrNb44aKy <= sól
+l7DrKizl9gRQ90TXwYcuV1wDJSLQe6JKkIK1Gl6OoHc <= sha256(SÓL + HASLO)
+->  Soleniem nazywamy doklejenie soli do hasła
+->  Na zasolonym haśle liczymy hash
+->  Tę wartość zapisujemy w bazie
+->  Podczas logowania porównujemy podane hasło z doklejoną solą pobraną z bazy i
+    porównujemy z wartością hasha zapisanego w bazie
+
+"Poprawny hash" (funcja skrótu):
+->  Deterministyczność - funcja dla tego samego ciągu zwraca zawsze to samo
+->  Nieodwracalność - nie da się odzyskać wprowadzonego ciągu
+->  Równy rozkład kolizji - ten sam hash powinien występować dla możliwie najmniejszej
+    liczby danych wejściowych
