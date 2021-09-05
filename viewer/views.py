@@ -2,16 +2,33 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from viewer.models import Movie
 from viewer.forms import MovieForm
 from django.urls import reverse_lazy
+from django.shortcuts import render
+import datetime
+
 from logging import getLogger
 LOGGER = getLogger()
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class MoviesView(ListView):
+@login_required
+def generate_demo(request): # <=== ZMIANA
+    our_get = request.GET.get('name', '')
+    return render(
+        request, template_name='demo.html',
+        context={'our_get': our_get,
+                 'list': ['pierwszy', 'drugi', 'trzeci', 'czwarty'],
+                 'nasza_data': datetime.datetime.now()
+                 }
+    )
+
+
+class MoviesView(LoginRequiredMixin, ListView):
     template_name = 'movies.html'
     model = Movie
 
 
-class MovieCreateView(CreateView):
+class MovieCreateView(LoginRequiredMixin, CreateView):
     template_name = 'form.html'
     form_class = MovieForm
     success_url = reverse_lazy('movie_create')
@@ -21,7 +38,7 @@ class MovieCreateView(CreateView):
         return super().form_invalid(form)
 
 
-class MovieUpdateView(UpdateView):
+class MovieUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'form.html'
     form_class = MovieForm
     # adres pobrany z URLs na który zostaniemy przekierowani
@@ -34,7 +51,7 @@ class MovieUpdateView(UpdateView):
         # zwracamy wynik działaniapierwotnej funkcji form_invalid
         return super().form_invalid(form)
 
-class MovieDeleteView(DeleteView):
+class MovieDeleteView(LoginRequiredMixin, DeleteView):
     # Nazwa szablonu wraz z rozszerzeniem którą pobieramy z folderu templates
     template_name = 'delete_movie.html'
     success_url = reverse_lazy('index')
