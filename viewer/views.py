@@ -10,10 +10,7 @@ LOGGER = getLogger()
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
 
-class SubmittableLoginView(LoginView):
-    template_name = 'form.html'
 
 @login_required
 def generate_demo(request): # <=== ZMIANA

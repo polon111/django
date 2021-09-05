@@ -16,9 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from viewer.views import MoviesView, MovieCreateView, MovieUpdateView, MovieDeleteView, SubmittableLoginView
+from viewer.views import MoviesView, MovieCreateView, MovieUpdateView, MovieDeleteView
 from viewer.models import Genre, Movie
-from django.contrib.auth.views import LoginView
 
 from viewer.views import generate_demo
 
