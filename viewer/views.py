@@ -10,6 +10,10 @@ LOGGER = getLogger()
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+
+class SubmittableLoginView(LoginView):
+    template_name = 'form.html'
 
 @login_required
 def generate_demo(request): # <=== ZMIANA
@@ -29,7 +33,7 @@ class MoviesView(LoginRequiredMixin, ListView):
 
 
 class MovieCreateView(LoginRequiredMixin, CreateView):
-    template_name = 'form.html'
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     success_url = reverse_lazy('movie_create')
 
@@ -39,7 +43,7 @@ class MovieCreateView(LoginRequiredMixin, CreateView):
 
 
 class MovieUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'form.html'
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     # adres pobrany z URLs na który zostaniemy przekierowani
     success_url = reverse_lazy('index')
